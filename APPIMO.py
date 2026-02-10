@@ -104,7 +104,7 @@ st.sidebar.title("ACHAT 1")
 
 # --- Définition des presets ---
 presets = {
-    "Aucun": {},
+    "Saisie manuelle": {},
     "Colloc 4ch sans travaux": {
         "prix": 200000,
         "travaux": 5000,
@@ -131,13 +131,13 @@ presets = {
 
 with st.sidebar.expander("ACHAT 1", expanded=True):  # expanded=True si tu veux que ça s'ouvre par défaut
 
-    preset1 = st.selectbox("Preset Achat 1 (remettre sur -aucun- apres sélection)", presets.keys(), key="preset1")
+    preset1 = st.selectbox("Preset Achat 1 (remettre sur -Saisie manuelle- apres sélection)", presets.keys(), key="preset1")
 
-    if preset1 != "Aucun":
+    if preset1 != "Saisie manuelle":
         for k, v in presets[preset1].items():
             st.session_state[f"{k}1"] = v
 
-    capacite_epargne0 = st.number_input("1. PART DE SALAIRE DEDIE A L'investissement AVANT ACHAT 1", value=500, step=50)
+    capacite_epargne0 = st.number_input("1. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 1", value=500, step=50)
     prix1 = st.slider("1. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix1", 100000), step=5000, key="prix1")
     travaux1 = st.slider("1. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux1", 80000), step=1000, key="travaux1")
     estimation1 = st.number_input("1. ESTIMATION DU BIEN", value=prix1+travaux1, step=5000)
@@ -147,7 +147,7 @@ with st.sidebar.expander("ACHAT 1", expanded=True):  # expanded=True si tu veux 
     duree1 = st.number_input("1. DUREE DU CREDIT", value=st.session_state.get("duree1", 25), step=5, key="duree1")
     aprt1 = st.number_input("1. APPORT % du prix", value=st.session_state.get("aprt1", 0), step=5, key="aprt1")
     DrEn1 = float(st.radio("1. Droit d'enregistrement % :", ["3", "12.5"], index=0, horizontal=True)) + 2
-    choix = st.selectbox("1. Sélectionne une hypothèque :", ["1.Hyp dispo (saisir valeur)", "1.Aucune hyp dispo"])
+    choix = st.selectbox("1. Sélectionnez une hypothèque : ---> NON FONCTIONEL", ["1.Hyp dispo (saisir valeur)", "1.Aucune hyp dispo"])
     hyp_dispo1 = st.number_input("1. Hyp Dispo", value=0, step=10000)
     apport1 = (aprt1*(prix1+travaux1)/100) + (prix1*DrEn1/100)
 
@@ -156,13 +156,13 @@ with st.sidebar.expander("ACHAT 1", expanded=True):  # expanded=True si tu veux 
 # Sidebar - ACHAT 2
 with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux qu'il soit ouvert par défaut
 
-    preset2 = st.selectbox("Preset Achat 2 (remettre sur -aucun- apres sélection)", presets.keys(), key="preset2")
+    preset2 = st.selectbox("Preset Achat 2 (remettre sur -Saisie manuelle- apres sélection)", presets.keys(), key="preset2")
 
-    if preset2 != "Aucun":
+    if preset2 != "Saisie manuelle":
         for k, v in presets[preset2].items():
             st.session_state[f"{k}2"] = v
 
-    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE AVANT ACHAT 2", value=400, step=50)
+    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=400, step=50)
     prix2 = st.slider("2. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix2", 150000), step=5000, key="prix2")
     travaux2 = st.slider("2. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux2", 60000), step=1000, key="travaux2")
     estimation2 = st.number_input("2. ESTIMATION DU BIEN", value=prix2+travaux2, step=5000)
@@ -172,7 +172,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
     duree2 = st.number_input("2. DUREE DU CREDIT", value=st.session_state.get("duree2", 20), step=5, key="duree2")
     aprt2 = st.number_input("2. APPORT % du prix", value=st.session_state.get("aprt2", 0), step=5, key="aprt2")
     DrEn2 = float(st.radio("2. Droit d'enregistrement % :", ["3", "12.5"], index=1, horizontal=True)) + 2
-    choix = st.selectbox("2. Sélectionne une hypothèque2 :", ["2. Hyp dispo (saisir valeur)", "2. Aucune hyp dispo", "2. Hypotequer bien1"])
+    choix = st.selectbox("2. Sélectionnez une hypothèque2 ---> NON FONCTIONNEL:", ["2. Hyp dispo (saisir valeur)", "2. Aucune hyp dispo", "2. Hypotequer bien1"])
     hyp_dispo2 = st.number_input("2. Hyp Dispo", value=0, step=5000)
     apport2 = (aprt2*(prix2+travaux2)/100) + (prix2*DrEn2/100)
 # st.sidebar.title("ACHAT 2")
@@ -183,13 +183,13 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
 
 with st.sidebar.expander("ACHAT 3 ", expanded=False):  # False = replié par défaut
 
-    preset3 = st.selectbox("Preset Achat 3 (remettre sur -aucun- apres sélection)", presets.keys(), key="preset3")
+    preset3 = st.selectbox("Preset Achat 3 (remettre sur -Saisie manuelle- apres sélection)", presets.keys(), key="preset3")
 
-    if preset3 != "Aucun":
+    if preset3 != "Saisie manuelle":
         for k, v in presets[preset3].items():
             st.session_state[f"{k}3"] = v
 
-    capacite_epargne2 = st.number_input("3. PART DE SALAIRE DEDIE AVANT ACHAT", value=300, step=50)
+    capacite_epargne2 = st.number_input("3. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 3. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=300, step=50)
     prix3 = st.slider("3. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix3", 150000), step=5000, key="prix3")
     travaux3 = st.slider("3. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux3", 60000), step=1000, key="travaux3")
     estimation3 = st.number_input("3. ESTIMATION DU BIEN", value=prix3+travaux3, step=5000)
@@ -199,7 +199,7 @@ with st.sidebar.expander("ACHAT 3 ", expanded=False):  # False = replié par dé
     duree3 = st.number_input("3. DUREE DU CREDIT", value=st.session_state.get("duree3", 20), step=5, key="duree3")
     aprt3 = st.number_input("3. APPORT % du prix", value=st.session_state.get("aprt3", 20), step=5, key="aprt3")
     DrEn3 = float(st.radio("3. Droit d'enregistrement % :", ["3", "12.5"], index=1, horizontal=True)) + 2
-    choix3 = st.selectbox("3. Sélectionne une hypothèque :", ["3. Hyp dispo (saisir valeur)", "3. Aucune hyp dispo", "3. Hypotequer bien1", "3. Hypotequer bien2"])
+    choix3 = st.selectbox("3. Sélectionne une hypothèque ---> NON FONCTIONNEL::", ["3. Hyp dispo (saisir valeur)", "3. Aucune hyp dispo", "3. Hypotequer bien1", "3. Hypotequer bien2"])
     hyp_dispo3 = st.number_input("3. Hyp Dispo", value=0, step=5000)
     apport3 = (aprt3*(prix3+travaux3)/100) + (prix3*DrEn3/100)
 
@@ -209,13 +209,13 @@ with st.sidebar.expander("ACHAT 3 ", expanded=False):  # False = replié par dé
 # --- ACHAT 4 ---
 with st.sidebar.expander("ACHAT 4", expanded=False):  # False = replié par défaut
 
-    preset4 = st.selectbox("Preset Achat 4 (remettre sur -aucun- apres sélection)", presets.keys(), key="preset4")
+    preset4 = st.selectbox("Preset Achat 4 (remettre sur -Saisie manuelle- apres sélection)", presets.keys(), key="preset4")
 
-    if preset4 != "Aucun":
+    if preset4 != "Saisie manuelle":
         for k, v in presets[preset4].items():
             st.session_state[f"{k}4"] = v
 
-    capacite_epargne3 = st.number_input("4. PART DE SALAIRE DEDIE AVANT ACHAT 4", value=0, step=50)
+    capacite_epargne3 = st.number_input("4. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 4. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=0, step=50)
     prix4 = st.slider("4. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix4", 150000), step=5000, key="prix4")
     travaux4 = st.slider("4. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux4", 60000), step=1000, key="travaux4")
     estimation4 = st.number_input("4. ESTIMATION DU BIEN", value=prix4+travaux4, step=5000)
@@ -225,7 +225,7 @@ with st.sidebar.expander("ACHAT 4", expanded=False):  # False = replié par déf
     duree4 = st.number_input("4. DUREE DU CREDIT", value=st.session_state.get("duree4", 20), step=5, key="duree4")
     aprt4 = st.number_input("4. APPORT % du prix", value=st.session_state.get("aprt4", 20), step=5, key="aprt4")
     DrEn4 = float(st.radio("4. Droit d'enregistrement 4 :", ["3", "12.5"], index=1, horizontal=True)) + 2
-    choix4 = st.selectbox("4. Sélectionne une hypothèque :", ["4.Hyp dispo (saisir valeur)", "4.Aucune hyp dispo", "4.Hypotequer bien1", "4.Hypotequer bien2", "4.Hypotequer bien3"])
+    choix4 = st.selectbox("4. Sélectionne une hypothèque : ---> NON FONCTIONNEL:", ["4.Hyp dispo (saisir valeur)", "4.Aucune hyp dispo", "4.Hypotequer bien1", "4.Hypotequer bien2", "4.Hypotequer bien3"])
     hyp_dispo4 = st.number_input("4. Hyp Dispo: saisir valeur", value=0, step=5000)
     apport4 = (aprt4*(prix4+travaux4)/100) + (prix4*DrEn4/100)
 
@@ -241,7 +241,9 @@ hyp_dict = {
 
 #st.title(HD4)
 
-rp = st.sidebar.radio("Reprise d'encours possible ? (Encours automatique sur achat-1 valorisation non pondéré. Pour le fun)", ["Oui", "Non"], horizontal=True,index=1)
+#st.sidebar.write("WORK IN PROGRESS. Code en cours d'écriture")
+rp = st.sidebar.radio("Reprise d'encours possible ? (Encours automatique sur achat-1 valorisation non pondéré. Pour le fun). --> NON FONCTIONELLE", ["Oui", "Non"], horizontal=True,index=1)
+
 rp_encours = 0 if rp == "Non" else 1
 
 
@@ -703,7 +705,7 @@ st.dataframe(df, use_container_width=True)
 
 ###############
 st.header("Confort de vie")
-st.write("Work in progresse. Ici bientôt, votre confort de vie. Car après tout, c'est ça qu'on cherche !")
+st.write("Designez votre confort de vie. En dessous de la ligne rouge vous travaillez pour investir. Au dessus de la ligne rouge vous profitez de votre cashflow en plus de votre salaire")
 # Tes listes
 Na=Na
 Dep_Mens =  DEPMENS
@@ -894,7 +896,6 @@ st.sidebar.download_button(
 #print(bien1.restant_du)
 # print(bien1.cashflow_list)
 # print(bien3.cashflow_list)
-
 
 
 
