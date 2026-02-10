@@ -869,7 +869,7 @@ st.markdown(f"""
 
 #with open(r"C:\Users\hugod\OneDrive\Bureau\Bureau\IMO\mon_fichier.pdf","rb") as f:
 #    pdf_bytes = f.read()
-with open("assets/mon_fichier.pdf", "rb") as f:
+with open("mon_fichier.pdf", "rb") as f:
     pdf_bytes = f.read()
 
 st.sidebar.download_button(
@@ -878,6 +878,7 @@ st.sidebar.download_button(
     file_name="Code Immo.pdf",
     mime="application/pdf"
 )
+
 
 
 
@@ -893,6 +894,7 @@ st.sidebar.download_button(
 #print(bien1.restant_du)
 # print(bien1.cashflow_list)
 # print(bien3.cashflow_list)
+
 
 
 
