@@ -133,7 +133,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
         for k, v in presets[preset2].items():
             st.session_state[f"{k}2"] = v
 
-    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=700, step=50)
+    capacite_epargne1 = st.number_input("2. PART DE SALAIRE + CASHFLOW DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. ", value=700, step=50)
     prix2 = st.slider("2. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix2", 150000), step=5000, key="prix2")
     travaux2 = st.slider("2. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux2", 60000), step=1000, key="travaux2")
     duree_chantier2 = st.number_input("2. Duree du chantier en mois", value=6, step=2)
@@ -653,9 +653,9 @@ for i in N:
 
 
 ####################
-eco_fictive=[0]
+eco_fictive=[epargne]
 for i in range(len(N)):
-    eco_fictive.append(eco_fictive[i]+J.economie1)
+    eco_fictive.append(eco_fictive[i]+J.economie0)
 
 def equalize_lists(*lists):
     min_length = min(len(lst) for lst in lists)
