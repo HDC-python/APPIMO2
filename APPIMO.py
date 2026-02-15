@@ -14,37 +14,6 @@ import pandas as pd
 
 
 
-# st.markdown(
-#     """
-#     <style>
-#     [data-testid="stSidebar"] {
-#         background-color: #2E2E40;   /* couleur de fond */
-#     }
-#     [data-testid="stSidebar"] * {
-#         color: white !important;     /* force le texte en blanc */
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
-# st.markdown(
-#     """
-#     <style>
-#     /* Fond de la sidebar */
-#     [data-testid="stSidebar"] {
-#         background-color: #2E2E10;
-#     }
-
-#     /* Labels / titres des widgets */
-#     [data-testid="stSidebar"] label, 
-#     [data-testid="stSidebar"] .css-1aumxhk { 
-#         color: white !important; 
-#     }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
-
 
 st.title("ACHAT EN SERIE : MASTER VISION !")
 with st.expander("Clique ici pour en savoir plus sur la lecture du graphique"):
@@ -58,10 +27,16 @@ with st.expander("Clique ici pour en savoir plus sur la lecture du graphique"):
 ➡️ *L'héritage de tes enfanst* 
 
 **Eco Fictive** = somme de ta capacité d'épargne initiale  
-➡️ *Ce que tu aurais sur ton compte si tu n'avais pas investi*""")
+➡️ *Ce que tu aurais sur ton compte si tu n'avais pas investi*
+             
+**Reste à vivre** = Salaire - mensualité. (Selon les banques : 1200€ pour une personne isolée, 1600€ pour un couple 2000€ pour un ménage)
+             
+**Taux d'endettement** = charges/revenus = (Sommes des mensualités) /(salaire + revenus locatifs)""")
+
+
 
 st.sidebar.title("WELCOME")
-with st.sidebar.expander("Clique ici pour en savoir plus sur le code"):
+with st.sidebar.expander("Clique ici pour en savoir plus sur l'emplois de ce logiciel"):
     st.markdown("""
 Remplis tes données personnelles et les données des achats que tu souhaites faire.  Observe les résultats à droite.  
 
@@ -76,10 +51,11 @@ st.sidebar.title("NOMBRE D ACHATS")
 choix = st.sidebar.radio(
     "NOMBRE D'ACQUISITION PROJETE :",
     ["1", "2", "3","4"],
-    index=1,
+    index=2,
     horizontal=True
 )
 nbbien = int(choix[0])
+
 #nbbien=st.number_input("NOMBRE D ACHAT SOUHAITE", value=2, step=1)
 
 
@@ -99,7 +75,8 @@ RAV=1500
     # st.title("HUGO DE COSTER")
     # st.header("Profil")
 
-epargne=st.sidebar.number_input("EPARGNE", value=5000, step=1000)
+epargne=st.sidebar.number_input("EPARGNE ACTUELLE", value=5000, step=1000)
+charges_RP=st.sidebar.number_input("MENSUALITE DE TA RP SI TU ES PROPRIETAIRE", value=1400, step=100)
 st.sidebar.title("ACHAT 1")
 
 # --- Définition des presets ---
@@ -116,7 +93,7 @@ presets = {
     },
     "Colloc 4ch avec travaux": {
         "prix": 100000,
-        "travaux": 70000,
+        "travaux": 80000,
         "loyer": 1600,
         "charges": 200,
         "taux": 3.5,
@@ -162,7 +139,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
         for k, v in presets[preset2].items():
             st.session_state[f"{k}2"] = v
 
-    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=400, step=50)
+    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=700, step=50)
     prix2 = st.slider("2. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix2", 150000), step=5000, key="prix2")
     travaux2 = st.slider("2. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux2", 60000), step=1000, key="travaux2")
     estimation2 = st.number_input("2. ESTIMATION DU BIEN", value=prix2+travaux2, step=5000)
@@ -170,7 +147,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
     charges2 = st.number_input("2. HARGES", value=st.session_state.get("charges2", 200), step=50, key="charges2")
     taux2 = st.number_input("2. TAUX", value=st.session_state.get("taux2", 3.5), step=0.1, key="taux2")
     duree2 = st.number_input("2. DUREE DU CREDIT", value=st.session_state.get("duree2", 20), step=5, key="duree2")
-    aprt2 = st.number_input("2. APPORT % du prix", value=st.session_state.get("aprt2", 0), step=5, key="aprt2")
+    aprt2 = st.number_input("2. APPORT % du prix", value=st.session_state.get("aprt2", 10), step=5, key="aprt2")
     DrEn2 = float(st.radio("2. Droit d'enregistrement % :", ["3", "12.5"], index=1, horizontal=True)) + 2
     choix = st.selectbox("2. Sélectionnez une hypothèque2 ---> NON FONCTIONNEL:", ["2. Hyp dispo (saisir valeur)", "2. Aucune hyp dispo", "2. Hypotequer bien1"])
     hyp_dispo2 = st.number_input("2. Hyp Dispo", value=0, step=5000)
@@ -189,7 +166,7 @@ with st.sidebar.expander("ACHAT 3 ", expanded=False):  # False = replié par dé
         for k, v in presets[preset3].items():
             st.session_state[f"{k}3"] = v
 
-    capacite_epargne2 = st.number_input("3. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 3. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=300, step=50)
+    capacite_epargne2 = st.number_input("3. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 3. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=900, step=50)
     prix3 = st.slider("3. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix3", 150000), step=5000, key="prix3")
     travaux3 = st.slider("3. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux3", 60000), step=1000, key="travaux3")
     estimation3 = st.number_input("3. ESTIMATION DU BIEN", value=prix3+travaux3, step=5000)
@@ -349,11 +326,11 @@ bien4 = BienImmobilier(prix=prix4, valeur=estimation4, bullet=0, travaux=travaux
 #print(bien1.restant_du)
 #print(bien1.cap_debut_per)
 #print(bien1.mensualite)
-
-tx_endt1=(bien1.mensualite/(bien1.loyer+salaire))*100//1
-tx_endt2=((bien1.mensualite+bien2.mensualite)/(bien1.loyer+bien2.loyer+salaire))*100//1
-tx_endt3=((bien1.mensualite+bien2.mensualite+bien3.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+salaire))*100//1
-tx_endt4=((bien1.mensualite+bien2.mensualite+bien3.mensualite+bien4.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+bien4.loyer+salaire))*100//1
+#tx_endt0=charges_RP/salaire*100//1
+tx_endt1=((charges_RP+bien1.mensualite)/(bien1.loyer+salaire))*100//1
+tx_endt2=((charges_RP+bien1.mensualite+bien2.mensualite)/(bien1.loyer+bien2.loyer+salaire))*100//1
+tx_endt3=((charges_RP+bien1.mensualite+bien2.mensualite+bien3.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+salaire))*100//1
+tx_endt4=((charges_RP+bien1.mensualite+bien2.mensualite+bien3.mensualite+bien4.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+bien4.loyer+salaire))*100//1
 
 class joueur :
         def __init__(self, epargne, capacite_epargne0,capacite_epargne1, capacite_epargne2, capacite_epargne3, duree_analyse, hypotheque_dispo):
@@ -373,13 +350,14 @@ J=joueur(epargne= epargne, capacite_epargne0=capacite_epargne0, capacite_epargne
 #PHASE 3 : CASHFLOW + Reprise encour = apport
 #st.title(bien1.mensualite())
 
-
+epargne_retraite = st.sidebar.slider("Epargne mansuel apres le dernier investissement", min_value=0, max_value=5000)
 
 CASHFLOW = [epargne]
 DETTE = []
 GAIN = [0]
 DEPMENS=[salaire-capacite_epargne0]
 TAUX_ENDT=[0]
+CFR_DE_VIE=[0] # salaire + loyer-mensualite-charges 
 
 # Périodes analysées en mois
 N = list(range(0, J.N_analyse, 1))
@@ -394,12 +372,14 @@ counttot=0
 
 
 for i in N:
-    if phase == 0:
+    if phase == 0:# code en boucle pour economiser jusque a l'apport suffisant pour 1er achat
         #print("phase=O")
         count0 += 1
         DETTE.append(0)
         DEPMENS.append(salaire-capacite_epargne0)
         TAUX_ENDT.append(TAUX_ENDT[-1])
+        #CFR_DE_VIE.append(salaire)
+        CFR_DE_VIE.append(DEPMENS[i])
         #GAIN.append(0)
         if CASHFLOW[-1] + J.hypotheque_dispo < bien1.apport:
             CASHFLOW.append(CASHFLOW[-1] + J.economie0)#attention dans ppt economie != cashflow
@@ -413,7 +393,7 @@ for i in N:
             
             phase = 1
     
-    elif phase == 1:
+    elif phase == 1: #Boucle avec cashflow qui s'accumule dans mes éconoimie jusqu'a avoir assez dapport pour ton 2e achat
         #print("phase=1")
         count1 += 1
         #print(count1)
@@ -421,49 +401,59 @@ for i in N:
         DETTE.append(dette_phase1)
         gain_phase1 =  dette_phase1 + bien1.revente + CASHFLOW[-1]#GAIN[-1]+
         GAIN.append(gain_phase1)
-        DEPMENS.append(salaire-capacite_epargne1)
+        DEPMENS.append(salaire+ bien1.cashflow_list[i]-capacite_epargne1)
         TAUX_ENDT.append(bien1.mensualite/(bien1.loyer+salaire))
-        
+        if nbbien == 1:
+            CFR_DE_VIE.append(salaire + bien1.cashflow_list[i])
+        else:
+            CFR_DE_VIE.append(DEPMENS[i])
+    
+
         bien2.move()
         bien3.move()
         bien4.move()
         #print("B1 RD=",(bien1.restant_du[count0+count1]),bien1.revente)
         if CASHFLOW[-1]  < bien2.apport or nbbien==1 :
             CASHFLOW.append(CASHFLOW[-1] + J.economie1 + bien1.cashflow_list[i])
-        elif bien1.rp_encours == 1 and CASHFLOW[-1] +(bien1.revente - bien1.restant_du[count0+count1]) < bien2.apport:
-            #print("Rp dispo=",(bien1.revente - bien1.restant_du[count1]))
-            CASHFLOW.append(CASHFLOW[-1] + J.economie1 + bien1.cashflow_list[i])
-
         else:
-            if bien1.rp_encours == 1:
-                CASHFLOW[-1] = CASHFLOW[-1]-(bien2.apport-(bien1.revente - bien1.restant_du[count0+count1]))
-            if bien1.rp_encours == 0:
-                CASHFLOW[-1]=0
+            CASHFLOW[-1]=0
             phase = min(2, nbbien)#phase = 2
     
     elif phase == 2:
         #print("phase=2")
+        
         count2 += 1
+        if bien1.rp_encours == 1:
+            apport3=apport3-1000#(estimation2-bien2.restant_du[i])
         dette_phase2 = -bien1.restant_du[i] - bien2.restant_du[i] 
         DETTE.append(dette_phase2)
         gain_phase2 = dette_phase2 + bien1.revente + bien2.revente + CASHFLOW[i-2]
         GAIN.append(gain_phase2)
         bien3.move()
         bien4.move()
-        DEPMENS.append(salaire-capacite_epargne2)
+        DEPMENS.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i]-capacite_epargne2)
         TAUX_ENDT.append((bien1.mensualite+bien2.mensualite)/(bien1.loyer+bien2.loyer+salaire))
+        #CFR_DE_VIE.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i])
+        if nbbien == 2:
+            CFR_DE_VIE.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i])
+            # gain_phase2 = dette_phase2 + bien1.revente + bien2.revente 
+            # GAIN.append(gain_phase2)
+        else:
+            CFR_DE_VIE.append(DEPMENS[i])
+            # gain_phase2 = dette_phase2 + bien1.revente + bien2.revente + CASHFLOW[i-2]
+            # GAIN.append(gain_phase2)
         
         # if CASHFLOW[-1] < bien3.apport:
         #     CASHFLOW.append(CASHFLOW[-1] + J.economie + bien1.cashflow_list[i] + bien2.cashflow_list[i])
-        if bien2.rp_encours == 0 and CASHFLOW[-1]  < bien3.apport or nbbien ==2:
+        if  CASHFLOW[-1]  < bien3.apport or nbbien ==2:
             CASHFLOW.append(CASHFLOW[-1] + J.economie2 + bien1.cashflow_list[i]+ bien2.cashflow_list[i])
-        elif bien2.rp_encours == 1 and CASHFLOW[-1] +(bien2.revente - bien2.restant_du[count0+count1+count2]) < bien3.apport:
-            CASHFLOW.append(CASHFLOW[-1] + J.economie2 +  bien1.cashflow_list[i]+ bien2.cashflow_list[i])        
+        # elif bien2.rp_encours == 1 and CASHFLOW[-1] +(bien2.revente - bien2.restant_du[count0+count1+count2]) < bien3.apport:
+            # CASHFLOW.append(CASHFLOW[-1] + J.economie2 +  bien1.cashflow_list[i]+ bien2.cashflow_list[i])        
         else:
-            if bien2.rp_encours == 1:
-                CASHFLOW[-1] = CASHFLOW[-1]-(bien3.apport-(bien2.revente - bien2.restant_du[count0+count1+count2])) 
-            if bien2.rp_encours == 0:
-                CASHFLOW[-1]=0
+            # if bien2.rp_encours == 1:
+            #     CASHFLOW[-1] = CASHFLOW[-1]-(bien3.apport-(bien2.revente - bien2.restant_du[count0+count1+count2])) 
+            
+            CASHFLOW[-1]=0
             phase = min(3, nbbien)#phase = 3
 
     # if counttot>count1+N1 :
@@ -487,8 +477,13 @@ for i in N:
         gain_phase3 = dette_phase3 + bien1.revente + bien2.revente + bien3.revente + CASHFLOW[i-3]
         GAIN.append(gain_phase3)
         bien4.move()
-        DEPMENS.append(salaire-capacite_epargne3)
+        DEPMENS.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i]+bien3.cashflow_list[i]-capacite_epargne3)
         TAUX_ENDT.append((bien1.mensualite+bien2.mensualite+bien3.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+salaire))
+        #CFR_DE_VIE.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i]+bien3.cashflow_list[i])
+        if nbbien == 3:
+            CFR_DE_VIE.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i]+bien3.cashflow_list[i])
+        else:
+            CFR_DE_VIE.append(DEPMENS[i])
         
         # if CASHFLOW[-1] < bien3.apport:
         #     CASHFLOW.append(CASHFLOW[-1] + J.economie + bien1.cashflow_list[i] + bien2.cashflow_list[i])
@@ -516,6 +511,11 @@ for i in N:
             TAUX_ENDT.append((bien1.mensualite+bien2.mensualite+bien3.mensualite+bien4.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+bien4.loyer+salaire))
         
             CASHFLOW.append(CASHFLOW[-1] + J.economie3 + bien1.cashflow_list[i] + bien2.cashflow_list[i] + bien3.cashflow_list[i]+ bien4.cashflow_list[i])
+            #CFR_DE_VIE.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i]+bien3.cashflow_list[i] +bien4.cashflow_list[i])
+            if nbbien == 4:
+                CFR_DE_VIE.append(salaire+bien1.cashflow_list[i]+bien2.cashflow_list[i]+bien3.cashflow_list[i]+bien4.cashflow_list[i])
+            else:
+                CFR_DE_VIE.append(DEPMENS[i])
 
 ####################
 eco_fictive=[0]
@@ -526,7 +526,7 @@ def equalize_lists(*lists):
     min_length = min(len(lst) for lst in lists)
     return [lst[:min_length] for lst in lists]
 
-N, CASHFLOW, DETTE, GAIN, eco_fictive, DEPMENS, TAUX_ENDT = equalize_lists(N, CASHFLOW, DETTE, GAIN, eco_fictive, DEPMENS, TAUX_ENDT)
+N, CASHFLOW, DETTE, GAIN, eco_fictive, DEPMENS, TAUX_ENDT, CFR_DE_VIE = equalize_lists(N, CASHFLOW, DETTE, GAIN, eco_fictive, DEPMENS, TAUX_ENDT, CFR_DE_VIE)
 
 # ecarts = [abs(DETTE[i+1] - DETTE[i]) for i in range(len(DETTE) - 1)]
 
@@ -587,8 +587,10 @@ ax.set_ylabel("Euros")
 ax.legend(loc='best')
 ax.grid(True)
 
+#ylimite = st.slider("zoom verticale", min_value=100000, max_value=1000000)
+
 ax.set_xlim([0, 50])
-ax.set_ylim([-300000, 800000])
+ax.set_ylim([-350000 , 900000 ])
 # Affichage Streamlit
 
 ##############################
@@ -632,7 +634,7 @@ st.markdown(
 ####################
 taux_endettement = [tx_endt1, tx_endt2, tx_endt3, tx_endt4]
 # Ne garder que les taux des biens sélectionnés
-taux_endettement_sel = taux_endettement[:nbbien]
+taux_endettement_sel = taux_endettement[:(nbbien)]
 taux_limite=st.number_input("TAUX D'ENDETTEMENTLIMITE", value=40, step=5)
 # Boucle dynamique selon le nombre de biens
 for i, taux in enumerate(taux_endettement_sel, start=1):
@@ -681,26 +683,7 @@ st.pyplot(fig)
 
 ###################
 
-# Variables (à remplacer par tes calculs)
-mensualite= [bien1.mensualite//1, bien2.mensualite//1, bien3.mensualite//1, bien4.mensualite//1]
-renta = [bien1.renta_brut, bien2.renta_brut, bien3.renta_brut, bien4.renta_brut]
-taux_endettement = [tx_endt1, tx_endt2, tx_endt3, tx_endt4 ]
-cashflow = [bien1.cashflow//1, bien2.cashflow//1, bien3.cashflow//1, bien4.cashflow//1]
 
-# Construire un tableau avec 4 colonnes fixes
-data = {}
-for i in range(4):
-    if i < nbbien:
-        data[f"Bien {i+1}"] = [mensualite[i], renta[i], taux_endettement[i], cashflow[i]]
-    else:
-        data[f"Bien {i+1}"] = ["-","-","-","-"]
-
-df = pd.DataFrame(
-    data,
-    index=["Mensualité €","Renta brute %", "Taux d'endettement %", "Cashflow €"]
-)
-
-st.dataframe(df, use_container_width=True)
 
 
 ###############
@@ -713,8 +696,9 @@ Dep_Mens =  DEPMENS
 fig, ax = plt.subplots(figsize=(10, 3))  # largeur = 10, hauteur = 5
 # Créer le graphique
 
-ax.plot(Na, Dep_Mens, marker='o', color="#49DF64",label="Dépense mensuelle")
+#ax.plot(Na, Dep_Mens, marker='o', color="#49DF64",label="Dépense mensuelle")
 ax.axhline(y=salaire, color="#FF6B6B", linestyle="--", linewidth=2, label=f"Salaire = {salaire} €")
+ax.plot(Na, CFR_DE_VIE, marker='o', color="#49DF55",label="Dépense mensuelle €")
 #ax.text(Na[achat_index], Dep_Mens[achat_index]+50, "🏠", fontsize=14, ha='center') 
 
 
@@ -723,7 +707,7 @@ ax.set_xlabel("Année")
 ax.set_ylabel("Dépense Mensuelle (€)")
 ax.legend(loc='best')
 ax.set_xlim([0, 50])
-ax.set_ylim([1000, 4000])
+ax.set_ylim([1000, 10000])
 ax.grid(True)
 
 # Afficher dans Streamlit
@@ -731,8 +715,27 @@ st.pyplot(fig)
 
 ####################
 
+# Variables (à remplacer par tes calculs)
+mensualite= [bien1.mensualite//1, bien2.mensualite//1, bien3.mensualite//1, bien4.mensualite//1]
+renta = [bien1.renta_brut, bien2.renta_brut, bien3.renta_brut, bien4.renta_brut]
+taux_endettement = [tx_endt1, tx_endt2, tx_endt3, tx_endt4 ]
+cashflow = [bien1.cashflow//1, bien2.cashflow//1, bien3.cashflow//1, bien4.cashflow//1]
 
+# Construire un tableau avec 4 colonnes fixes
+data = {}
+counts = [count0, count1, count2, count3]
+for i in range(4):
+    if i < nbbien:
+        data[f"Bien {i+1}"] = [mensualite[i], renta[i], taux_endettement[i], cashflow[i],round(counts[i]/12,1)]
+    else:
+        data[f"Bien {i+1}"] = ["-","-","-","-","-"]
 
+df = pd.DataFrame(
+    data,
+    index=["Mensualité €","Renta brute %", "Taux d'endettement %", "Cashflow €", "Nbr d'année pour acheter"]
+)
+
+st.dataframe(df, use_container_width=True)
 
 
 ####################
@@ -875,7 +878,7 @@ with open("mon_fichier.pdf", "rb") as f:
     pdf_bytes = f.read()
 
 st.sidebar.download_button(
-    label="📄 Télécharger explications du code",
+    label="📄 Télécharge le memento des astuces AchatS en séries ",
     data=pdf_bytes,
     file_name="Code Immo.pdf",
     mime="application/pdf"
