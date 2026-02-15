@@ -65,18 +65,11 @@ salaire=st.sidebar.number_input("SALAIRE", value=2700, step=100)
 
 
 
-
-
-
 RAV=1500
-# RAV=(salaire-capacite_epargne0)#Reste A Vivre
-# st.sidebar.write(f"Reste a vivre: **{(RAV):,.0f} €/mois**")
-#st.sidebar.write("Ce que tu as sur ton compte")
-    # st.title("HUGO DE COSTER")
-    # st.header("Profil")
+
 
 epargne=st.sidebar.number_input("EPARGNE ACTUELLE", value=5000, step=1000)
-charges_RP=st.sidebar.number_input("MENSUALITE DE TA RP SI TU ES PROPRIETAIRE", value=1400, step=100)
+charges_RP=st.sidebar.number_input("MENSUALITE DE TA RP SI TU ES PROPRIETAIRE", value=0, step=100)
 st.sidebar.title("ACHAT 1")
 
 # --- Définition des presets ---
