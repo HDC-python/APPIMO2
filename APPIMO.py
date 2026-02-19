@@ -122,7 +122,7 @@ with st.sidebar.expander("ACHAT 1", expanded=True):  # expanded=True si tu veux 
 
     capacite_epargne0 = st.number_input("1. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 1", value=500, step=50)
     prix1 = st.slider("1. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix1", 100000), step=5000, key="prix1")
-    travaux1 = st.slider("1. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux1", 80000), step=1000, key="travaux1")
+    travaux1 = st.slider("1. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux1", 80000), step=5000, key="travaux1")
     duree_chantier1 = st.number_input("1. Duree du chantier en mois", value=st.session_state.get("chantier1", 6), step=1, key="chantier1")
     estimation1 = st.number_input("1. ESTIMATION DU BIEN", value=prix1+travaux1, step=5000)
     loyer1 = st.number_input("1. LOYER", value=st.session_state.get("loyer1", 1600), step=50, key="loyer1")
@@ -132,7 +132,7 @@ with st.sidebar.expander("ACHAT 1", expanded=True):  # expanded=True si tu veux 
     aprt1 = st.number_input("1. APPORT % du prix", value=st.session_state.get("aprt1", 0), step=5, key="aprt1")
     DrEn1 = float(st.radio("1. Droit d'enregistrement % :", ["3", "12.5"], index=0, horizontal=True)) + 2
     #choix = st.selectbox("1. Sélectionnez une hypothèque : ---> NON FONCTIONEL", ["1.Hyp dispo (saisir valeur)", "1.Aucune hyp dispo"])
-    hyp_dispo1 = st.number_input("1. Hyp Dispo", value=0, step=10000)
+    #hyp_dispo1 = st.number_input("1. Hyp Dispo", value=0, step=10000)
     apport1 = (aprt1*(prix1+travaux1)/100) + (prix1*DrEn1/100)
 
 
@@ -148,7 +148,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
 
     capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. ", value=700, step=50)
     prix2 = st.slider("2. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix2", 150000), step=5000, key="prix2")
-    travaux2 = st.slider("2. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux2", 60000), step=1000, key="travaux2")
+    travaux2 = st.slider("2. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux2", 60000), step=5000, key="travaux2")
     duree_chantier2 = st.number_input("2. Duree du chantier en mois", value=6, step=2)
     estimation2 = st.number_input("2. ESTIMATION DU BIEN", value=prix2+travaux2, step=5000)
     loyer2 = st.number_input("2. LOYER", value=st.session_state.get("loyer2", 1600), step=50, key="loyer2")
@@ -158,7 +158,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
     aprt2 = st.number_input("2. APPORT % du prix", value=st.session_state.get("aprt2", 10), step=5, key="aprt2")
     DrEn2 = float(st.radio("2. Droit d'enregistrement % :", ["3", "12.5"], index=1, horizontal=True)) + 2
     #choix = st.selectbox("2. Sélectionnez une hypothèque2 ---> NON FONCTIONNEL:", ["2. Hyp dispo (saisir valeur)", "2. Aucune hyp dispo", "2. Hypotequer bien1"])
-    hyp_dispo2 = st.number_input("2. Hyp Dispo", value=0, step=5000)
+    #hyp_dispo2 = st.number_input("2. Hyp Dispo", value=0, step=5000)
     apport2 = (aprt2*(prix2+travaux2)/100) + (prix2*DrEn2/100)
 # st.sidebar.title("ACHAT 2")
 
@@ -213,7 +213,7 @@ with st.sidebar.expander("ACHAT 4", expanded=False):  # False = replié par déf
     aprt4 = st.number_input("4. APPORT % du prix", value=st.session_state.get("aprt4", 20), step=5, key="aprt4")
     DrEn4 = float(st.radio("4. Droit d'enregistrement 4 :", ["3", "12.5"], index=1, horizontal=True)) + 2
     #choix4 = st.selectbox("4. Sélectionne une hypothèque : ---> NON FONCTIONNEL:", ["4.Hyp dispo (saisir valeur)", "4.Aucune hyp dispo", "4.Hypotequer bien1", "4.Hypotequer bien2", "4.Hypotequer bien3"])
-    hyp_dispo4 = st.number_input("4. Hyp Dispo: saisir valeur", value=0, step=5000)
+    #hyp_dispo4 = st.number_input("4. Hyp Dispo: saisir valeur", value=0, step=5000)
     apport4 = (aprt4*(prix4+travaux4)/100) + (prix4*DrEn4/100)
 
 hyp_dict = {
@@ -337,21 +337,18 @@ bien4 = BienImmobilier(prix=prix4, valeur=estimation4, bullet=0, travaux=travaux
 #print(bien1.cap_debut_per)
 #print(bien1.mensualite)
 #tx_endt0=charges_RP/salaire*100//1
-tx_endt1=((charges_RP+bien1.mensualite)/(bien1.loyer+salaire))*100//1
-tx_endt2=((charges_RP+bien1.mensualite+bien2.mensualite)/(bien1.loyer+bien2.loyer+salaire))*100//1
-tx_endt3=((charges_RP+bien1.mensualite+bien2.mensualite+bien3.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+salaire))*100//1
-tx_endt4=((charges_RP+bien1.mensualite+bien2.mensualite+bien3.mensualite+bien4.mensualite)/(bien1.loyer+bien2.loyer+bien3.loyer+bien4.loyer+salaire))*100//1
+
 
 class joueur :
-        def __init__(self, epargne, capacite_epargne0,capacite_epargne1, capacite_epargne2, capacite_epargne3, duree_analyse, hypotheque_dispo):
+        def __init__(self, epargne, capacite_epargne0,capacite_epargne1, capacite_epargne2, capacite_epargne3, duree_analyse):
             self.epargne=epargne
             self.economie0=capacite_epargne0
             self.economie1=capacite_epargne1
             self.economie2=capacite_epargne2
             self.economie3=capacite_epargne3
             self.N_analyse=duree_analyse*12
-            self.hypotheque_dispo=hypotheque_dispo
-J=joueur(epargne= epargne, capacite_epargne0=capacite_epargne0, capacite_epargne1=capacite_epargne1, capacite_epargne2=capacite_epargne2, capacite_epargne3=capacite_epargne3, duree_analyse= 50, hypotheque_dispo=hyp_dispo1)##### hip dispo 1
+            
+J=joueur(epargne= epargne, capacite_epargne0=capacite_epargne0, capacite_epargne1=capacite_epargne1, capacite_epargne2=capacite_epargne2, capacite_epargne3=capacite_epargne3, duree_analyse= 50)##### hip dispo 1
 
 
 #PHASE 0 : condition fin economie = apport.
@@ -360,7 +357,7 @@ J=joueur(epargne= epargne, capacite_epargne0=capacite_epargne0, capacite_epargne
 #PHASE 3 : CASHFLOW + Reprise encour = apport
 #st.title(bien1.mensualite())
 
-epargne_retraite = st.sidebar.slider("Epargne mansuel apres le dernier investissement", min_value=0, max_value=5000)
+
 
   # en mois
 chantier_timer1 = 0
@@ -400,7 +397,7 @@ for i in N:
         TAUX_ENDT.append(TAUX_ENDT[-1])
         CFR_DE_VIE.append(DEPMENS[i])
 
-        if CASHFLOW[-1] + J.hypotheque_dispo < bien1.apport:
+        if CASHFLOW[-1] < bien1.apport:
             CASHFLOW.append(CASHFLOW[-1] + J.economie0)
             GAIN.append(CASHFLOW[-1])
             bien1.move()
@@ -779,10 +776,20 @@ st.markdown(
 
 
 ####################
-taux_endettement = [tx_endt1, tx_endt2, tx_endt3, tx_endt4]
+
 # Ne garder que les taux des biens sélectionnés
+
+taux_limite=st.number_input("TAUX D'ENDETTEMENTLIMITE [%]", value=40, step=5)
+Ponderation_loyer=st.number_input("Pondératrion des loyer par la banque [%]", value=70, step=5)
+pdrtL=Ponderation_loyer/100
+
+tx_endt1=((charges_RP+bien1.mensualite)/(bien1.loyer*pdrtL+salaire))*100//1
+tx_endt2=((charges_RP+bien1.mensualite+bien2.mensualite)/((bien1.loyer+bien2.loyer)*pdrtL+salaire))*100//1
+tx_endt3=((charges_RP+bien1.mensualite+bien2.mensualite+bien3.mensualite)/((bien1.loyer+bien2.loyer+bien3.loyer)*pdrtL+salaire))*100//1
+tx_endt4=((charges_RP+bien1.mensualite+bien2.mensualite+bien3.mensualite+bien4.mensualite)/((bien1.loyer+bien2.loyer+bien3.loyer+bien4.loyer)*pdrtL+salaire))*100//1
+
+taux_endettement = [tx_endt1, tx_endt2, tx_endt3, tx_endt4]
 taux_endettement_sel = taux_endettement[:(nbbien)]
-taux_limite=st.number_input("TAUX D'ENDETTEMENTLIMITE", value=40, step=5)
 # Boucle dynamique selon le nombre de biens
 for i, taux in enumerate(taux_endettement_sel, start=1):
     if taux < taux_limite:
