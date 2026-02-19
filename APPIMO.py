@@ -112,7 +112,7 @@ presets = {
 
 # --- ACHAT 1 ---
 
-with st.sidebar.expander("ACHAT 1", expanded=True):  # expanded=True si tu veux que ça s'ouvre par défaut
+with st.sidebar.expander("ACHAT 1", expanded=False):  # expanded=True si tu veux que ça s'ouvre par défaut
 
     preset1 = st.selectbox("Preset Achat 1 (remettre sur -Saisie manuelle- apres sélection)", presets.keys(), key="preset1")
 
@@ -1058,6 +1058,7 @@ st.sidebar.download_button(
 #print(bien1.restant_du)
 # print(bien1.cashflow_list)
 # print(bien3.cashflow_list)
+
 
 
 
