@@ -75,7 +75,7 @@ st.sidebar.title("ACHAT 1")
 # --- Définition des presets ---
 presets = {
     "Saisie manuelle": {},
-    "Colloc / 4ch / travaux / 100%": {
+    "Colloc / 4ch / travaux / Q100%": {
         "prix": 100000,
         "travaux": 80000,
         "chantier":8,
@@ -85,7 +85,7 @@ presets = {
         "duree": 25,
         "aprt": 0,
     },
-    "Colloc / 4ch / travaux / 125%": {
+    "Colloc / 4ch / travaux / Q125%": {
         "prix": 100000,
         "travaux": 80000,
         "chantier":8,
@@ -96,7 +96,7 @@ presets = {
         "aprt": -15,
     },
 
-    "Colloc / 3ch / travaux / 10%": {
+    "Colloc / 3ch / travaux / Q90%": {
         "prix": 100000,
         "travaux": 45000,
         "chantier":6,
@@ -146,7 +146,7 @@ with st.sidebar.expander("ACHAT 2", expanded=False):  # expanded=True si tu veux
         for k, v in presets[preset2].items():
             st.session_state[f"{k}2"] = v
 
-    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. ", value=700, step=50)
+    capacite_epargne1 = st.number_input("2. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 2. ", value=500, step=50)
     prix2 = st.slider("2. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix2", 150000), step=5000, key="prix2")
     travaux2 = st.slider("2. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux2", 60000), step=5000, key="travaux2")
     duree_chantier2 = st.number_input("2. Duree du chantier en mois", value=6, step=2)
@@ -174,7 +174,7 @@ with st.sidebar.expander("ACHAT 3 ", expanded=False):  # False = replié par dé
         for k, v in presets[preset3].items():
             st.session_state[f"{k}3"] = v
 
-    capacite_epargne2 = st.number_input("3. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 3. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=900, step=50)
+    capacite_epargne2 = st.number_input("3. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 3. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=500, step=50)
     prix3 = st.slider("3. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix3", 150000), step=5000, key="prix3")
     travaux3 = st.slider("3. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux3", 60000), step=1000, key="travaux3")
     duree_chantier3 = st.number_input("3. Duree du chantier en mois", value=0, step=2)
@@ -186,7 +186,7 @@ with st.sidebar.expander("ACHAT 3 ", expanded=False):  # False = replié par dé
     aprt3 = st.number_input("3. APPORT % du prix", value=st.session_state.get("aprt3", 20), step=5, key="aprt3")
     DrEn3 = float(st.radio("3. Droit d'enregistrement % :", ["3", "12.5"], index=1, horizontal=True)) + 2
     #choix3 = st.selectbox("3. Sélectionne une hypothèque ---> NON FONCTIONNEL::", ["3. Hyp dispo (saisir valeur)", "3. Aucune hyp dispo", "3. Hypotequer bien1", "3. Hypotequer bien2"])
-    hyp_dispo3 = st.number_input("3. Hyp Dispo", value=0, step=5000)
+    #hyp_dispo3 = st.number_input("3. Hyp Dispo", value=0, step=5000)
     apport3 = (aprt3*(prix3+travaux3)/100) + (prix3*DrEn3/100)
 
 # st.sidebar.title("ACHAT 3")
@@ -201,7 +201,7 @@ with st.sidebar.expander("ACHAT 4", expanded=False):  # False = replié par déf
         for k, v in presets[preset4].items():
             st.session_state[f"{k}4"] = v
 
-    capacite_epargne3 = st.number_input("4. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 4. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=0, step=50)
+    capacite_epargne3 = st.number_input("4. PART DE SALAIRE DEDIE A L'INVESTISSEMENT JUSQU'A L'ACQUISITION DE VOTRE BIEN N° 4. Une valeurs négative indique que vous profitez du cashflow de vos aquisitions précédentes", value=500, step=50)
     prix4 = st.slider("4. PRIX DU BIEN", min_value=0, max_value=500000, value=st.session_state.get("prix4", 150000), step=5000, key="prix4")
     travaux4 = st.slider("4. PRIX DES TRAVAUX", min_value=0, max_value=500000, value=st.session_state.get("travaux4", 60000), step=1000, key="travaux4")
     duree_chantier4 = st.number_input("4. Duree du chantier en mois", value=0, step=2)
@@ -216,22 +216,13 @@ with st.sidebar.expander("ACHAT 4", expanded=False):  # False = replié par déf
     #hyp_dispo4 = st.number_input("4. Hyp Dispo: saisir valeur", value=0, step=5000)
     apport4 = (aprt4*(prix4+travaux4)/100) + (prix4*DrEn4/100)
 
-hyp_dict = {
-    "4.Hyp dispo (saisir valeur)": lambda: 0.8 * hyp_dispo4,
-    "4.Aucune hyp dispo": lambda: 0,
-    "4.Hypotequer bien1": lambda: 0.8 * (bien1.amorti[i] + bien1.plusvalue()),
-    "4.Hypotequer bien2": lambda: 0.8 * (bien2.amorti[i] + bien2.plusvalue()),
-    "4.Hypotequer bien3": lambda: 0.8 * (bien3.amorti[i] + bien3.plusvalue()),
-}
-
+#
 #HD4 = hyp_dict[choix4]()  # exécution de la fonction seulement au bon moment
 
 #st.title(HD4)
 
 #st.sidebar.write("WORK IN PROGRESS. Code en cours d'écriture")
-rp = st.sidebar.radio("Reprise d'encours possible ? (Encours automatique sur achat-1 valorisation non pondéré. Pour le fun). --> NON FONCTIONELLE", ["Oui", "Non"], horizontal=True,index=1)
 
-rp_encours = 0 if rp == "Non" else 1
 
 
 zoom = st.sidebar.slider("REPERE DE PERFORMANCE", 1, 50, 20, step=2)
@@ -244,7 +235,7 @@ zoom = st.sidebar.slider("REPERE DE PERFORMANCE", 1, 50, 20, step=2)
 
 N=700
 class BienImmobilier:
-    def __init__(self, valeur, prix, travaux, taux, loyer, charges, duree, apport, bullet, rp_encours,aprt):
+    def __init__(self, valeur, prix, travaux, taux, loyer, charges, duree, apport, bullet,aprt):
         self.aprt=aprt
         self.prix = prix
         self.travaux = travaux
@@ -260,7 +251,6 @@ class BienImmobilier:
         self.revente = self.valeur* 1#(1+0.01*self.duree ) # Valeur de revente estimée       
         self.cout_acquisition = prix + travaux + self.droit_enregistrement
         self.capital_emprunte = self.prix+self.travaux-(self.prix+self.travaux)*aprt/100 # self.cout_acquisition - self.apport+(prix*DrEn/100) #####aprt1
-        self.rp_encours=rp_encours
         self.renta_brut= ((12*loyer)/self.cout_acquisition)*100//1
         self.plusvalue=self.prix + self.travaux - self.valeur 
         self.calculer_mensualites()
@@ -329,10 +319,10 @@ class BienImmobilier:
         self.cashflow_list.pop()
     
 #bien1 = BienImmobilier(prix=100000, valeur=100000, bullet=0, travaux=0, taux=0.035, loyer=900, charges=100, duree=25, apport=25000, rp_encours=0 )
-bien1 = BienImmobilier(prix=prix1, valeur=estimation1, bullet=0, travaux=travaux1, taux=taux1, loyer=loyer1, charges=charges1, duree=duree1, apport=apport1, rp_encours=rp_encours, aprt=aprt1)
-bien2 = BienImmobilier(prix=prix2, valeur=estimation2, bullet=0, travaux=travaux2, taux=taux2, loyer=loyer2, charges=charges2, duree=duree2, apport=apport2, rp_encours=rp_encours, aprt=aprt2)
-bien3 = BienImmobilier(prix=prix3, valeur=estimation3, bullet=0, travaux=travaux3, taux=taux3, loyer=loyer3, charges=charges3, duree=duree3, apport=apport3, rp_encours=rp_encours, aprt=aprt3)
-bien4 = BienImmobilier(prix=prix4, valeur=estimation4, bullet=0, travaux=travaux4, taux=taux4, loyer=loyer4, charges=charges4, duree=duree4, apport=apport4, rp_encours=rp_encours, aprt=aprt4)
+bien1 = BienImmobilier(prix=prix1, valeur=estimation1, bullet=0, travaux=travaux1, taux=taux1, loyer=loyer1, charges=charges1, duree=duree1, apport=apport1,  aprt=aprt1)
+bien2 = BienImmobilier(prix=prix2, valeur=estimation2, bullet=0, travaux=travaux2, taux=taux2, loyer=loyer2, charges=charges2, duree=duree2, apport=apport2,  aprt=aprt2)
+bien3 = BienImmobilier(prix=prix3, valeur=estimation3, bullet=0, travaux=travaux3, taux=taux3, loyer=loyer3, charges=charges3, duree=duree3, apport=apport3,  aprt=aprt3)
+bien4 = BienImmobilier(prix=prix4, valeur=estimation4, bullet=0, travaux=travaux4, taux=taux4, loyer=loyer4, charges=charges4, duree=duree4, apport=apport4,  aprt=aprt4)
 #print(bien1.restant_du)
 #print(bien1.cap_debut_per)
 #print(bien1.mensualite)
@@ -461,8 +451,7 @@ for i in N:
 
         count2 += 1
 
-        if bien1.rp_encours == 1:
-            apport3 -= 1000
+
 
         dette_phase2 = -bien1.restant_du[i] - bien2.restant_du[i]
         DETTE.append(dette_phase2)
@@ -780,7 +769,7 @@ st.markdown(
 # Ne garder que les taux des biens sélectionnés
 
 taux_limite=st.number_input("TAUX D'ENDETTEMENTLIMITE [%]", value=40, step=5)
-Ponderation_loyer=st.number_input("Pondératrion des loyer par la banque [%]", value=70, step=5)
+Ponderation_loyer=st.number_input("Pondératrion des loyer par la banque [%]", value=100, step=5)
 pdrtL=Ponderation_loyer/100
 
 tx_endt1=((charges_RP+bien1.mensualite)/(bien1.loyer*pdrtL+salaire))*100//1
