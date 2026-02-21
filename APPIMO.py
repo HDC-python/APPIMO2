@@ -128,6 +128,7 @@ with st.sidebar.expander("ACHAT 1", expanded=False):  # expanded=True si tu veux
     loyer1 = st.number_input("1. LOYER", value=st.session_state.get("loyer1", 1600), step=50, key="loyer1")
     charges1 = st.number_input("1. CHARGES", value=st.session_state.get("charges1", 200), step=50, key="charges1")
     taux1 = st.number_input("1. TAUX", value=st.session_state.get("taux1", 3.5), step=0.1, key="taux1")
+    #bullet1 = st.number_input("1. BULLET", value=st.session_state.get("bullet1", 0.5), step=0.1, key="bullet1")
     duree1 = st.number_input("1. DUREE DU CREDIT", value=st.session_state.get("duree1", 25), step=5, key="duree1")
     aprt1 = st.number_input("1. APPORT % du prix", value=st.session_state.get("aprt1", 0), step=5, key="aprt1")
     DrEn1 = float(st.radio("1. Droit d'enregistrement % :", ["3", "12.5"], index=0, horizontal=True)) + 2
@@ -235,7 +236,7 @@ zoom = st.sidebar.slider("REPERE DE PERFORMANCE", 1, 50, 20, step=2)
 
 N=700
 class BienImmobilier:
-    def __init__(self, valeur, prix, travaux, taux, loyer, charges, duree, apport, bullet,aprt):
+    def __init__(self, valeur, prix, travaux, taux, loyer, charges, duree, apport, bullet,aprt,dren):
         self.aprt=aprt
         self.prix = prix
         self.travaux = travaux
@@ -246,7 +247,8 @@ class BienImmobilier:
         self.bullet = bullet # partie en bullet 0 = pret normal
         self.apport = apport#*prix/100
         self.quotite= (100-self.apport)/100
-        self.droit_enregistrement = (prix*DrEn1/100)###########DR1
+        self.dren=dren
+        self.droit_enregistrement = (prix*dren/100)###########DR1
         self.valeur=valeur
         self.revente = self.valeur* 1#(1+0.01*self.duree ) # Valeur de revente estimée       
         self.cout_acquisition = prix + travaux + self.droit_enregistrement
@@ -282,7 +284,7 @@ class BienImmobilier:
             
         while len(self.cap_debut_per) < N+1: #Longueur de la liste d analise. Je me des zero  a la fin des listes pour qu'elles soient de longueur N
             
-            if self.bullet==0:
+            if abs(self.bullet) < 1e-9: #if self.bullet==0:
                 self.cashflow_list.append(self.loyer-self.charges)
             else:
                 self.cashflow_list.append(0)
@@ -290,8 +292,8 @@ class BienImmobilier:
             self.restant_du.append(0)
             self.interet.append(0)
             self.amorti.append(0)
-        if self.bullet !=0 :
-            self.cashflow_list[self.duree]=self.revente-self.capital_emprunte*self.bullet#(1-self.bullet)*self.capital_emprunte
+        if abs(self.bullet) > 1e-9 : # if self.bullet !=0 
+            self.cashflow_list[self.duree]=(self.revente-self.capital_emprunte*self.bullet)# 
     def printID(self):
         print ("capital emprunter =", self.capital_emprunte, "\nmensualité =", self.mensualite//1,"\nloyé =", self.loyer//1, "\n cashflow =", self.cashflow//1,"\n ")
     def get_info(self):
@@ -319,15 +321,15 @@ class BienImmobilier:
         self.cashflow_list.pop()
     
 #bien1 = BienImmobilier(prix=100000, valeur=100000, bullet=0, travaux=0, taux=0.035, loyer=900, charges=100, duree=25, apport=25000, rp_encours=0 )
-bien1 = BienImmobilier(prix=prix1, valeur=estimation1, bullet=0, travaux=travaux1, taux=taux1, loyer=loyer1, charges=charges1, duree=duree1, apport=apport1,  aprt=aprt1)
-bien2 = BienImmobilier(prix=prix2, valeur=estimation2, bullet=0, travaux=travaux2, taux=taux2, loyer=loyer2, charges=charges2, duree=duree2, apport=apport2,  aprt=aprt2)
-bien3 = BienImmobilier(prix=prix3, valeur=estimation3, bullet=0, travaux=travaux3, taux=taux3, loyer=loyer3, charges=charges3, duree=duree3, apport=apport3,  aprt=aprt3)
-bien4 = BienImmobilier(prix=prix4, valeur=estimation4, bullet=0, travaux=travaux4, taux=taux4, loyer=loyer4, charges=charges4, duree=duree4, apport=apport4,  aprt=aprt4)
+bien1 = BienImmobilier(prix=prix1, valeur=estimation1, bullet=0, travaux=travaux1, taux=taux1, loyer=loyer1, charges=charges1, duree=duree1, apport=apport1,  aprt=aprt1, dren=DrEn1)
+bien2 = BienImmobilier(prix=prix2, valeur=estimation2, bullet=0, travaux=travaux2, taux=taux2, loyer=loyer2, charges=charges2, duree=duree2, apport=apport2,  aprt=aprt2, dren=DrEn2)
+bien3 = BienImmobilier(prix=prix3, valeur=estimation3, bullet=0, travaux=travaux3, taux=taux3, loyer=loyer3, charges=charges3, duree=duree3, apport=apport3,  aprt=aprt3, dren=DrEn3)
+bien4 = BienImmobilier(prix=prix4, valeur=estimation4, bullet=0, travaux=travaux4, taux=taux4, loyer=loyer4, charges=charges4, duree=duree4, apport=apport4,  aprt=aprt4, dren=DrEn4)
 #print(bien1.restant_du)
 #print(bien1.cap_debut_per)
 #print(bien1.mensualite)
 #tx_endt0=charges_RP/salaire*100//1
-
+#st.title(bullet1)
 
 class joueur :
         def __init__(self, epargne, capacite_epargne0,capacite_epargne1, capacite_epargne2, capacite_epargne3, duree_analyse):
@@ -1058,7 +1060,6 @@ st.sidebar.download_button(
 #print(bien1.restant_du)
 # print(bien1.cashflow_list)
 # print(bien3.cashflow_list)
-
 
 
 
